@@ -12,6 +12,8 @@ what are the benefits?
   * depth unlimited (this means your that your **JSON** structure for translations **can be as big as you want**)
 
 ```
+var app = angular.module('app',[])
+
 .filter('i18n', ['$rootScope', function($rootScope) {
     return function (input,param) {
         var translations = {
@@ -45,7 +47,7 @@ what are the benefits?
             return input;
         }
     }
-}]);
+}])
 ````
 I strongly recommend to use something like watchify to have the
 translations in separate way
@@ -84,7 +86,7 @@ _if the filter doesnt find the searched key, it will return the key_
 **Use the filter inside a controller**
 _Remember that you need to add the word 'Filter' to the name of the filter_
 ```
-.controller('Ctrl',function($scope, i18nFilter){
+.controller('AppCtrl',function($scope, i18nFilter){
   $scope.hello = i18nFilter("sample.sample.sample");
 });
 ```
