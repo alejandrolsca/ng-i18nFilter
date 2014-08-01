@@ -14,8 +14,8 @@ what are the benefits?
 You can setup the module in the .config phase (_notice that we need to add an extra "Provider" word to the provider name for this_)
 ```
 angular.module('app',['i18n'])
-    .config(function($i18nProviderProvider){
-        $i18nProviderProvider
+    .config(function($i18nProvider){
+        $i18nProvider
         .addTranslation('en-US',{"sample":{"sample":{"sample":"hello"}}})
         .addTranslation('es-MX',{"sample":{"sample":{"sample":"hola"}}})
         .setLang('en-US');
@@ -24,8 +24,8 @@ angular.module('app',['i18n'])
 Also in the .run phase
 ```
 angular.module('app',['i18n'])
-    .run(function($i18nProvider){
-        $i18nProvider
+    .run(function($i18n){
+        $i18n
         .addTranslation('en-US',{"sample":{"sample":{"sample":"hello"}}})
         .addTranslation('es-MX',{"sample":{"sample":{"sample":"hola"}}})
         .setLang('en-US');
@@ -37,8 +37,8 @@ translations in separate way
 
 ```
 angular.module('app',['i18n'])
-    .run(function($i18nProvider){
-        $i18nProvider
+    .run(function($i18n){
+        $i18n
         .addTranslation('en-US',require('./languages/en-US'))
         .addTranslation('es-MX',require('./languages/es-MX'))
         .setLang('en-US');
@@ -60,9 +60,9 @@ _if the filter doesnt find the searched key, it will return the key_
 ```
 **Change language on the go**
 ```
-.controller('appCtrl',function($scope, $i18nProvider,i18nFilter){
+.controller('appCtrl',function($scope, $i18n,i18nFilter){
         $scope.setLang = function(langKey){
-            $i18nProvider.setLang(langKey);
+            $i18n.setLang(langKey);
             console.log(i18nFilter('sample.sample.sample')); //this is how we call the filter
         }
     });

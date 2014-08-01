@@ -3,9 +3,9 @@
 
 angular.module('i18n',[])
 
-    .provider('$i18nProvider', function () {
+    .provider('$i18n', function () {
 
-        var $i18nProvider = this;
+        var $i18n = this;
         
         var $translations = {},
             $language;
@@ -39,18 +39,18 @@ angular.module('i18n',[])
         
         this.$get = function ($injector) {
             return {
-                addTranslation: $i18nProvider.addTranslation,
-                getTranslations: $i18nProvider.getTranslations,
-                setLang: $i18nProvider.setLang,
-                getLang: $i18nProvider.getLang,
+                addTranslation: $i18n.addTranslation,
+                getTranslations: $i18n.getTranslations,
+                setLang: $i18n.setLang,
+                getLang: $i18n.getLang,
             }
         };
     })
-    .filter('i18n', ['$i18nProvider', function($i18nProvider) {
+    .filter('i18n', ['$i18n', function($i18n) {
         return function (input,param) {
-            if (!$i18nProvider.getLang()) throw new Error("Please define a language for the i18n filter.");
-            var translations = $i18nProvider.getTranslations(),
-            language = $i18nProvider.getLang(),
+            if (!$i18n.getLang()) throw new Error("Please define a language for the i18n filter.");
+            var translations = $i18n.getTranslations(),
+            language = $i18n.getLang(),
             keys = input.split('.'),
             data = translations[language],
             value = undefined;
