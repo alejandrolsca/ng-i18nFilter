@@ -63,7 +63,7 @@ _if the filter doesnt find the searched key, it will return the key_
 .controller('appCtrl',function($scope, $i18nProvider,i18nFilter){
         $scope.setLang = function(langKey){
             $i18nProvider.setLang(langKey);
-            console.log(i18nFilter('TITLE')); //this is how we call the filter
+            console.log(i18nFilter('sample.sample.sample')); //this is how we call the filter
         }
     });
 
