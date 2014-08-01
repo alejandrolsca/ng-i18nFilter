@@ -11,52 +11,38 @@ what are the benefits?
   * Can be mixed with other filters
   * depth unlimited (this means your that your **JSON** structure for translations **can be as big as you want**)
 
+You can setup the module in the .config phase (_notice that we need to add an extra "Provider" word to the provider name for this_)
 ```
-var app = angular.module('app',[])
+angular.module('app',['i18n'])
+    .config(function($i18nProviderProvider){
+        $i18nProviderProvider
+        .addTranslation('en-US',{"sample":{"sample":{"sample":"hello"}}})
+        .addTranslation('es-MX',{"sample":{"sample":{"sample":"hola"}}})
+        .setLang('en-US');
+    })
+```
+Also in the .run phase
+```
+angular.module('app',['i18n'])
+    .run(function($i18nProvider){
+        $i18nProvider
+        .addTranslation('en-US',{"sample":{"sample":{"sample":"hello"}}})
+        .addTranslation('es-MX',{"sample":{"sample":{"sample":"hola"}}})
+        .setLang('en-US');
+    })
+```
 
-.filter('i18n', ['$rootScope', function($rootScope) {
-    return function (input,param) {
-        var translations = {
-            "es-MX" : {
-              "sample":{
-                "sample":{
-                  "sample":"hola mundo"
-                },
-                "sample2":[1,2,3]
-              }
-            },
-            "en-US" : {
-              "sample":{
-                "sample":{
-                  "sample":"hello world"
-                },
-                "sample2":[1,2,3]
-              }
-            }
-        };
-        var currentLanguage = $rootScope.currentLanguage || 'es-MX',
-        keys = input.split('.'),
-        data = translations[currentLanguage],
-        value = undefined;
-        for(var key in keys) {
-            data = data[keys[keys]];
-        }
-        if (!!data) {
-            return (typeof param === "undefined") ? data : data.replace('@@', param);
-        } else {
-            return input;
-        }
-    }
-}])
-````
 I strongly recommend to use something like watchify to have the
 translations in separate way
 
 ```
-var translations: {
-  "es-MX" : require('./languages/es-MX'),
-  "en-US" : require('./languages/en-US')
-}
+angular.module('app',['i18n'])
+    .run(function($i18nProvider){
+        $i18nProvider
+        .addTranslation('en-US',require('./languages/en-US'))
+        .addTranslation('es-MX',require('./languages/es-MX'))
+        .setLang('en-US');
+    })
 ```
 **How to use it in a view:**
 ```
@@ -74,21 +60,20 @@ _if the filter doesnt find the searched key, it will return the key_
 ```
 **Change language on the go**
 ```
-.controller('Ctrl',function($scope, $rootScope){
-  $scope.changeLang = function(lang)  {
-    $rootScope.currentLanguage = lang; //for ex. 'en-US'
-  }
-});
+.controller('appCtrl',function($scope, $i18nProvider,i18nFilter){
+        $scope.setLang = function(langKey){
+            $i18nProvider.setLang(langKey);
+            console.log(i18nFilter('TITLE')); //this is how we call the filter
+        }
+    });
 
-<span ng-click="changeLang('es-MX')">Español</span>
-<span ng-click="changeLang('en-US')">English</span>
+<button ng-click="setLang('es-MX')">Español</button>
+<button ng-click="setLang('en-US')">English</button>
 ```
 **Use the filter inside a controller**
 _Remember that you need to add the word 'Filter' to the name of the filter_
 ```
-.controller('AppCtrl',function($scope, i18nFilter){
+.controller('appCtrl',function($scope, i18nFilter){
   $scope.hello = i18nFilter("sample.sample.sample");
 });
 ```
-this was based on the @brunoscopelliti tutorial
-http://blog.brunoscopelliti.com/internazionalization-i18n-with-angularjs with some small adaptations

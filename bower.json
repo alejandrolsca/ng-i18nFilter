@@ -1,0 +1,30 @@
+{
+  "name": "ng-i18nFilter",
+  "main": "ng-i18nFilter.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/alejandrolsca/ng-i18nFilter",
+  "authors": [
+    "Alejandro Sanchez Betancourt <alejandrolsca@gmail.com>"
+  ],
+  "description": "i18n Filter for AngularJS",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "i18n",
+    "angular",
+    "filter"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.21"
+  }
+}

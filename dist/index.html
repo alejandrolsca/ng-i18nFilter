@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ng-i18nFilter</title>      
+<!--CSS-->
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+
+<!--JS-->   
+<script type="text/javascript" src="js/lib.min.js"></script>
+
+<script type="text/javascript">
+angular.element(document).ready(function () {
+        
+    angular.module('app',['i18n'])
+    .config(function($i18nProviderProvider){
+        $i18nProviderProvider
+        .addTranslation('en-US',{"sample":{"sample":{"sample":"hello"}}})
+        .addTranslation('es-MX',{"sample":{"sample":{"sample":"hola"}}})
+        .setLang('en-US');
+    })
+    /* configuration for run*/
+    /*
+    .run(function($i18nProvider){
+        $i18nProvider
+        .addTranslation('en-US',{"sample":{"sample":{"sample":"hello"}}})
+        .addTranslation('es-MX',{"sample":{"sample":{"sample":"hola"}}})
+        .setLang('en-US');
+    })
+    */
+    .controller('appCtrl',function($scope, $i18nProvider,i18nFilter){
+        $scope.setLang = function(langKey){
+            $i18nProvider.setLang(langKey);
+            console.log(i18nFilter('TITLE')); //this is how we call the filter
+        }
+    });
+    
+    angular.bootstrap(document,['app']);
+});
+</script>
+</head>
+
+<body ng-controller="appCtrl">
+    <button ng-click="setLang('es-MX')">es-MX</button>
+    <button ng-click="setLang('en-US')">en-US</button>
+    {{'sample.sample.sample' | i18n}}
+</body>
+
+</html>

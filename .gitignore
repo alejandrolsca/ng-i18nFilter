@@ -1,0 +1,6 @@
+assets
+node_modules
+bower_components
+test
+tests
+.DS_Store
