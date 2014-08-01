@@ -13,16 +13,6 @@ module.exports = function (grunt) {
     config: config,
     pkg: config.pkg,
     bower: grunt.file.readJSON('./.bowerrc'),
-    copy: {
-      dist: {
-       files: [{
-         expand: true,
-         cwd: '<%= config.app %>',
-         src: 'ng-i18nFilter.js',
-         dest: '<%= config.dist %>/js'
-       }]
-      }
-    },
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> lib - v<%= pkg.version %> -' +
@@ -33,10 +23,28 @@ module.exports = function (grunt) {
           '<%= config.dist %>/js/lib.min.js': [
             '<%= bower.directory %>/angular/angular.js',
             '<%= config.app %>/ng-i18nFilter.js'
+          ],
+            '<%= config.app %>/ng-i18nFilter.min.js': [
+            '<%= config.app %>/ng-i18nFilter.js'
           ]
         }
       }
-    }
+    },
+    copy: {
+      dist: {
+       files: [{
+         expand: true,
+         cwd: '<%= config.app %>',
+         src: 'ng-i18nFilter.js',
+         dest: '<%= config.dist %>/js'
+       },{
+         expand: true,
+         cwd: '<%= config.app %>',
+         src: 'ng-i18nFilter.min.js',
+         dest: '<%= config.dist %>/js'
+       }]
+      }
+    },
   });
  
   grunt.loadNpmTasks('grunt-contrib-copy');
