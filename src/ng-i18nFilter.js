@@ -11,9 +11,9 @@ angular.module('i18n',[])
             $language;
         
         this.addTranslation = function(langKey, translation){
-            if (!langKey) {
+            if (!angular.isString(langKey)) {
                 throw new Error("The langKey '" + langKey + "' is not a valid string");
-            } else if (!translation) {
+            } else if (!angular.isObject(translation)) {
                 throw new Error("The translation '" + translation + "' is not a valid object");
             } else {
                 $translations[langKey] = translation;
@@ -26,7 +26,7 @@ angular.module('i18n',[])
         };
 
         this.setLang = function(langKey) {
-            if (langKey) {
+            if (angular.isString(langKey)) {
                 $language = langKey;
                 return this;
             }
@@ -54,12 +54,17 @@ angular.module('i18n',[])
             keys = input.split('.'),
             data = translations[language],
             value = undefined;
-            for(var key in keys) {
-                data = data[keys[key]];
-            }
-            if (!!data) {
-                return (typeof param === "undefined") ? data : data.replace('@@', param);
-            } else {
+            try {
+                for(var key in keys) {
+                    data = data[keys[key]];
+                }
+                if (!!data) {
+                    return (typeof param === "undefined") ? data : data.replace('@@', param);
+                } else {
+                    return input;
+                }
+            } catch (e) {
+                console.log(e.description);
                 return input;
             }
         }
